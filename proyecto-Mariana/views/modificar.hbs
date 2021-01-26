@@ -1,0 +1,30 @@
+<h1>Modificar cita</h1>
+<form method="post" action="/modificar">
+  <p> Id:<input type="text" name="id">
+    <input type="button" id="btn-buscar" class="btn btn-success" value="Buscar">
+  </p>
+  <p>Nombre:<input type="text" id="nombre" name="nombre" disabled></p>
+  <p>Apellidos:<input type="text" id="apellidos" name="apellidos" disabled></p>
+  <p>Fecha:<input type="date" id="fecha" name="fecha"></p>
+  <p>Hora:<input type="time" id="hora" name="hora"></p>
+  <p><input type="submit" id="btn-save" class="btn btn primary" value="Guardar"></p>
+</form>
+<script>
+  let id = document.querySelector("input[name'id']")
+  let nombre = document.querySelector("input[name'nombre']")
+  let apellidos = document.querySelector("input[name'apellidos']")
+  let fecha = document.querySelector("input[name'fecha']")
+  let hora = document.querySelector("input[name'hora']")
+  let btnBuscar = document.querySelector("#btn-buscar")
+  
+  btnBuscar.onclick = () => {
+    fetch(`/citas/cita/${id.value}`)
+      .then(res => res.json())
+      .then(cita => {
+        nombre.value = cita.nombre
+        apellidos.value = cita.apellidos
+        fecha.value = cita.fecha
+        hora.value = cita.hora
+      })
+  }
+</script>
