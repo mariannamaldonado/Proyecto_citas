@@ -18,16 +18,24 @@ rtCitas.get('/cancelar', function (req, res) {
     res.render('cancelar')
 })
 rtCitas.post('/cancelar', function (req, res) {
-    let citas= JSON.parce(fs.readFileSync('cita.json','utf-8'))
-    let id=req.body.id
-    let indice=false
-    // res.render('cancelar')
+    let CId=req.bodyconsole.log(cId)
+    if(cId==cId){
+        daoCitas.cancelCita(cId)
+        .then(res.render('respuestacancelacion'))
+        
+    }else{
+        res.render('home')
+    }
+    // let citas= JSON.parce(fs.readFileSync('cita.json','utf-8'))
+    // let id=req.body.id
+    // let indice=false
+    // // res.render('cancelar')
 })
 
 
 rtCitas.post('/procesar', (req, res) => {
-    let nuevaCita = new Cita(req.body)
-    let errores = nuevaCita.validar()
+    let nuevaCita = new Cita(req.body)       // llama al constructor de la clase cita, y le paso el objeto cita
+    let errores = nuevaCita.validar() 
     if (errores.length == 0) {
         daoCitas.guardar(nuevaCita)
             .then(cita => {
@@ -35,7 +43,7 @@ rtCitas.post('/procesar', (req, res) => {
                 res.render('error', {error:'Dia y hora ocupada'})
                 else{
                     mailer.send()
-                res.render('respuesta', { cita: cita })
+                res.render('respuesta', { cita: cita }) // renderisame respuesta con cita 
                 }
                
             })

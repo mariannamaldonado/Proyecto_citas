@@ -8,7 +8,7 @@ daoCitas.guardar = function guardar(cita) {
     return new Promise((resolved, reject) => {
         let citas = []
         fs.readFile('./dao/citas.json', (err, data) => {
-            if (err) reject(err)
+            if (err) reject(err) // si hay error has un reject 
             if (data != "") citas = JSON.parse(data)
             if(citas.find(c=>c.cDate==cita.cDate && c.cTime==cita.cTime))
             resolved(null)
@@ -17,7 +17,7 @@ daoCitas.guardar = function guardar(cita) {
                 citas.push(cita)
                 fs.writeFile('./dao/citas.json', JSON.stringify(citas), (err) => {
                 if (err) reject(err)
-                resolved(cita)
+                resolved(cita)  // devuelve la cita
                 })
             }
         })
@@ -25,17 +25,25 @@ daoCitas.guardar = function guardar(cita) {
 }
 
 
-daoCitas.cancelar= function (cId) {
-    return new Promise((resolve, reject) => {
 
-        citas = JSON.parse(fs.readFileSync('./dao/cita.json', 'utf-8'))    //
-
-        citas = citas.filter(c => { return c.cId != cId })               // returns solo los objectos donde el id no es lo que necesitamos borrar
-
-        fs.writeFileSync('./dao/cita.json', JSON.stringify(citas), 'utf-8')
-
-        resolve('La cita esta borrada')
-    })
+//ELIMINAR CITA:
+daoCitas.cancelCita= function cancelCita (citaEliminar){
+    let citaAEliminar
+     this.getCitaId(citaEliminar.id)
+       .then(citaBorrar=>citaAEliminar=citaBorrar)
+  
+     return new Promise ((resolved,reject)=>{ 
+        fs.readFile('./dao/citas.json', 'utf8', (err, data) => {
+            if (err) reject(err)
+            citas = JSON.parse(data)
+            indice=citas.findIndex(meme => `${meme.id}`==citaEliminar.id)
+            citas.splice(indice,1)
+            fs.writeFile('./dao/citas.json', JSON.stringify(citas), (err) => {
+                if (err) reject(err)
+            })
+            resolved(citaAEliminar)
+        })   
+    })        
 }
 
 // // modificar
