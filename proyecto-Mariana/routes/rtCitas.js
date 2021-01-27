@@ -17,6 +17,12 @@ rtCitas.get('/modificar', function (req, res) {
 rtCitas.get('/cancelar', function (req, res) {
     res.render('cancelar')
 })
+rtCitas.post('/cancelar', function (req, res) {
+    let citas= JSON.parce(fs.readFileSync('cita.json','utf-8'))
+    let id=req.body.id
+    let indice=false
+    // res.render('cancelar')
+})
 
 
 rtCitas.post('/procesar', (req, res) => {
@@ -43,14 +49,16 @@ rtCitas.post('/procesar', (req, res) => {
 })
 
 
-rtCitas.get('/consulta',(req,res)=>{
-    fs.readFile('citas.json','utf-8', (err,data)=>{
-        res.json(data)
-    })
-})
-rtCitas.get('/modificar/:id', (req,res)=>{
-    let id=req.params.id
-    res.send("Has seleccionado modificar la cita")
-})
+
+
+// rtCitas.get('/consulta',(req,res)=>{
+//     fs.readFile('citas.json','utf-8', (err,data)=>{
+//         res.json(data)
+//     })
+// })
+// rtCitas.get('/modificar/:id', (req,res)=>{
+//     let id=req.params.id
+//     res.send("Has seleccionado modificar la cita")
+// })
 
 module.exports=rtCitas

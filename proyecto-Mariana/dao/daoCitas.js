@@ -24,35 +24,49 @@ daoCitas.guardar = function guardar(cita) {
     })
 }
 
-// modificar
-daoCitas.getCitas=function getCitas (){
-    return new Promise((resolved,reject)=>{
-        setTimeout(()=>{
-            resolved(citas)
-            reject("error")
-        },2000) 
-    })
-}
-daoCitas.getCitasByName=function getCitasByName (nombre){
-    return new Promise((resolved,reject)=>{
-        setTimeout(()=>{
-            resolved(citas.filter(cita=>`${cita.nombre} ${cita.apellidos}`==nombre))
-            reject("error")
-        },2000) 
+
+daoCitas.cancelar= function (cId) {
+    return new Promise((resolve, reject) => {
+
+        citas = JSON.parse(fs.readFileSync('./dao/cita.json', 'utf-8'))    //
+
+        citas = citas.filter(c => { return c.cId != cId })               // returns solo los objectos donde el id no es lo que necesitamos borrar
+
+        fs.writeFileSync('./dao/cita.json', JSON.stringify(citas), 'utf-8')
+
+        resolve('La cita esta borrada')
     })
 }
 
-daoCitas.editCita=function editCita(cita){
-    let citaACambiar=this.getCita(cita.id)
-    citaACambiar.fecha=cita.fecha
-    citaACambiar.hora=cita.hora
-    return new Promise((resolved,reject)=>{
-        setTimeout(()=>{  
-            citas.splice(citas.indexOf(cita), 1, citaACambiar)
-        },1000)
-    })
+// // modificar
+// daoCitas.getCitas=function getCitas (){
+//     return new Promise((resolved,reject)=>{
+//         setTimeout(()=>{
+//             resolved(citas)
+//             reject("error")
+//         },2000) 
+//     })
+// }
+// daoCitas.getCitasByName=function getCitasByName (cName){
+//     return new Promise((resolved,reject)=>{
+//         setTimeout(()=>{
+//             resolved(citas.filter(cita=>`${cita.cName} ${cita.c.LastName}`==c.Nombre))
+//             reject("error")
+//         },2000) 
+//     })
+// }
+
+// daoCitas.editCita=function editCita(cita){
+//     let citaACambiar=this.getCita(cita.CId)
+//     citaACambiar.fecha=cita.cDate
+//     citaACambiar.hora=cita.cTime
+//     return new Promise((resolved,reject)=>{
+//         setTimeout(()=>{  
+//             citas.splice(citas.indexOf(cita), 1, citaACambiar)
+//         },1000)
+//     })
     
-}
+// }
 
 // cancelar cita 
 // daoCitas.cancelCita= function cancelCita (){
